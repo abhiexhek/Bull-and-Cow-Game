@@ -171,6 +171,7 @@ public class BullAndCow {
         int attempts = 0;
 
         // Generate initial random guess
+        System.out.println("Computer is guessing");
         for (int i = 0; i < codeLength; i++) {
             currentGuess.add(possibleChars.get(random.nextInt(possibleChars.size())));
         }
