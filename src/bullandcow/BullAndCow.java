@@ -79,8 +79,15 @@ public class BullAndCow {
                 }
                 case "2" -> {
                     if (!hasNumber) {
-                        System.out.print("Enter a number between 0 - 9: ");
-                        String numberInput = scanner.nextLine();
+                        System.out.println("Enter number range (e.g., '1-9') or individual digits (e.g., '02468'): ");
+                        String numberInput = scanner.nextLine().trim();
+
+                        // Validate input contains at least one digit
+                        if (!numberInput.matches(".*\\d.*")) {
+                            System.out.println("Invalid input. Must contain at least one digit (0-9)");
+                            continue;
+                        }
+
                         secretCode.addNumberRangeFromString(numberInput);
                         hasNumber = true;
                     } else {
@@ -170,6 +177,7 @@ public class BullAndCow {
         Random random = new Random();
         int attempts = 0;
 
+        System.out.println("Computer is guessing...");
         // Generate initial random guess
         for (int i = 0; i < codeLength; i++) {
             currentGuess.add(possibleChars.get(random.nextInt(possibleChars.size())));

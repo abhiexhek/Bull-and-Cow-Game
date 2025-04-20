@@ -14,6 +14,22 @@ public class SecretCode {
     }
 
     public void addNumberRangeFromString(String numberInput) {
+        // Check if input is in range format (e.g., "1-9")
+        if (numberInput.matches("\\d-\\d")) {
+            String[] range = numberInput.split("-");
+            char start = range[0].charAt(0);
+            char end = range[1].charAt(0);
+
+            // Validate range
+            if (start >= '0' && end >= '0' && end <= '9' && start <= end) {
+                for (char c = start; c <= end; c++) {
+                    allowedNumbers.add(c);
+                }
+                return;
+            }
+        }
+
+        // Fallback to original single-digit handling
         for (char c : numberInput.toCharArray()) {
             if (Character.isDigit(c)) {
                 allowedNumbers.add(c);
