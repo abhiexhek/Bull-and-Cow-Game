@@ -66,13 +66,14 @@ public class BullAndCow {
             switch (choice) {
                 case "1" -> {
                     if (!hasChar) {
-                        System.out.print("Enter two characters between a - z: ");
-                        String input = scanner.nextLine().toLowerCase();
-                        String output = input.replaceAll("\\s+", "");
-                        if (output.length() >= 2) {
-                            secretCode.addCharRange(output.charAt(0), output.charAt(1));
-                            hasChar = true;
-                        }
+                        System.out.println("Enter character range (e.g., 'a-d') or specific characters (e.g., 'aeiou'): ");
+                        String charInput = scanner.nextLine().trim();
+
+                        // Remove any whitespace between characters
+                        charInput = charInput.replaceAll("\\s+", "");
+
+                        secretCode.addCharRangeFromInput(charInput);
+                        hasChar = true;
                     } else {
                         System.out.println("Already entered! Please choose another option.");
                     }
@@ -176,9 +177,8 @@ public class BullAndCow {
         List<Character> currentGuess = new ArrayList<>();
         Random random = new Random();
         int attempts = 0;
-
-        System.out.println("Computer is guessing...");
         // Generate initial random guess
+        System.out.println("Computer is guessing");
         for (int i = 0; i < codeLength; i++) {
             currentGuess.add(possibleChars.get(random.nextInt(possibleChars.size())));
         }

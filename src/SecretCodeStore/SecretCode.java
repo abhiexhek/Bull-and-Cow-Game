@@ -7,9 +7,53 @@ public class SecretCode {
     private final Set<Character> allowedNumbers = new HashSet<>();
     private final Set<Character> allowedSpecialChars = new HashSet<>();
 
-    public void addCharRange(char start, char end) {
+    public void addCharRange(char start, char end) throws IllegalArgumentException {
+        // Validate inputs are letters
+        if (!Character.isLetter(start) || !Character.isLetter(end)) {
+            throw new IllegalArgumentException("Both characters must be letters (a-z or A-Z)");
+        }
+
+        // Convert to lowercase for consistency
+        start = Character.toLowerCase(start);
+        end = Character.toLowerCase(end);
+
+        // Validate range order
+        if (start > end) {
+            throw new IllegalArgumentException("Start character must come before end character in alphabet");
+        }
+
+        // Add all characters in range (inclusive)
         for (char c = start; c <= end; c++) {
             allowedChars.add(c);
+        }
+    }
+
+    // Updated to handle both range and individual characters
+    public void addCharRangeFromInput(String input) {
+        input = input.trim().toLowerCase();
+
+        // Handle range format (e.g., "a-d")
+        if (input.matches("[a-z]-[a-z]")) {
+            String[] range = input.split("-");
+            char start = range[0].charAt(0);
+            char end = range[1].charAt(0);
+
+            try {
+                addCharRange(start, end);
+                System.out.println("Added characters: " + start + " to " + end);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+        // Handle individual characters (e.g., "abc")
+        else if (input.matches("[a-z]+")) {
+            for (char c : input.toCharArray()) {
+                allowedChars.add(c);
+            }
+            System.out.println("Added characters: " + input);
+        }
+        else {
+            System.out.println("Invalid format. Use either range (a-z) or characters (abc)");
         }
     }
 
